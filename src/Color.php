@@ -402,6 +402,26 @@ class Color implements \JsonSerializable
     }
 
     /**
+     * @return bool
+     */
+    public function isDark() : bool
+    {
+        return $this->getHsl()['l'] < 0.5;
+    }
+
+    /**
+     * @return Color
+     */
+    public function getMatchingTextColor()
+    {
+        if ($this->isDark()) {
+            return $this->lighten(90);
+        }
+
+        return $this->darken(90);
+    }
+
+    /**
      * @param $percentage
      *
      * @return Color

@@ -27,7 +27,7 @@ class PaletteGenerator
         for ($i = $numberToLighten ; $i > 0; $i--) {
             array_push($colors, $this->baseColor->lighten($percentage * $i));
         }
-        
+
         array_push($colors, $this->baseColor);
 
         for ($i = 1; $i < $steps - $numberToLighten + 1; $i++) {
