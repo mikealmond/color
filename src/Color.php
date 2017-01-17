@@ -138,17 +138,17 @@ class Color implements \JsonSerializable
     private static function isValidAdjustment($degrees) : bool
     {
         // Check to see the values are between -359 and 359 and return false if any are outside the bounds
-        return max(min($degrees, 359), -359) === $degrees;
+        return max(min($degrees, 360), -360) === $degrees;
     }
 
-    private static function degreesToHue($degrees)
+    public static function degreesToHue($degrees)
     {
         return $degrees / 360;
     }
 
-    private static function hueToDegress($hue)
+    public static function hueToDegress($hue)
     {
-        return ceil($hue * 360);
+        return $hue * 360;
     }
 
 
@@ -228,9 +228,9 @@ class Color implements \JsonSerializable
         $blue  = self::hueToRgb($p, $q, $hue - 1 / 3);
 
         return [
-            'r' => (int) ceil($red * 255),
-            'g' => (int) ceil($green * 255),
-            'b' => (int) ceil($blue * 255),
+            'r' => (int) round($red * 255, 2),
+            'g' => (int) round(round($green, 2) * 255),
+            'b' => (int) round($blue * 255, 2),
         ];
     }
 
@@ -441,19 +441,21 @@ class Color implements \JsonSerializable
         if (!self::isValidAdjustment($degrees)) {
             throw new ColorException('You must specify a proper value between 360 and -360');
         }
+
         $colors = $this->getHsl();
 
         $hue = self::hueToDegress($colors['h']) + $degrees;
 
-        if ($hue > 360) {
+
+        if ($hue >= 360) {
             $hue -= 360;
         } else if ($hue < 0) {
             $hue += 360;
         }
 
-        $lighterColor = self::hslToRgb(self::degreesToHue($hue), $colors['s'], min(round($colors['l'], 5), 255));
+        $adjustedColor = self::hslToRgb(self::degreesToHue($hue), $colors['s'], min(round($colors['l'], 5), 255));
 
-        return new self(...array_values($lighterColor));
+        return new self(...array_values($adjustedColor));
     }
 
     /**

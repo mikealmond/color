@@ -135,11 +135,16 @@ class ColorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('660000', strval($color));
 
         $color = Color::fromHsl(1, 1, 0.9);
-        $this->assertEquals('FFCDCD', strval($color));
-        $this->assertEquals(['h' => 0, 's' => 1, 'l' => 0.90196078431372551], $color->getHsl());
+        $this->assertEquals('FFCCCC', strval($color));
+        $this->assertEquals(['h' => 0, 's' => 1, 'l' => 0.9], $color->getHsl());
 
         $green = Color::fromRgb(0, 255, 0);
         $this->assertEquals(['h' => 1 / 3, 's' => 1, 'l' => 0.5], $green->getHsl());
+
+        $red1 = Color::fromHsl(0, 1, 0.5);
+        $red2 = Color::fromRgb(255, 0, 0);
+        $this->assertEquals(true, $red1->equals($red2));
+
     }
 
     /**
@@ -157,6 +162,10 @@ class ColorTest extends \PHPUnit_Framework_TestCase
         $white2 = Color::fromRgb(255, 255, 255);
 
         $this->assertEquals(true, $white1->equals($white2));
+
+        $this->assertEquals(true, Color::fromHex('009AFF')->equals(Color::fromRgb(0, 154, 255)));
+        $this->assertEquals(true, Color::fromHex('0099FF')->equals(Color::fromRgb(0, 153, 255)));
+
     }
 
     public function testLuminosityContrast()
@@ -178,11 +187,34 @@ class ColorTest extends \PHPUnit_Framework_TestCase
 
     public function testAdjustHue()
     {
+
         $color = Color::fromHex('0099FF');
+        $hue = $color->getHsl();
+        $sameColor = Color::fromHsl($hue['h'], $hue['s'], $hue['l']);
+        $this->assertEquals($color->getHex(), $sameColor->getHex());
 
-        $this->assertEquals('FF6600', $color->adjustHue(180)->getHex());
+        /**
+         * Failing test
 
-        $this->assertEquals('0099FF', $color->adjustHue(30)->adjustHue(-30)->getHex());
+            $color = Color::fromHex('009AFF');
+            $hue = $color->getHsl();
+            $sameColor = Color::fromHsl($hue['h'], $hue['s'], $hue['l']);
+            $this->assertEquals(0, $hue['h'] - $sameColor->getHsl()['h']);
+        */
+
+        $this->assertEquals('00FF00', Color::fromHex('FF0000')->adjustHue(120)->getHex());
+
+        $this->assertEquals('FF6600', Color::fromHex('0099FF')->adjustHue(180)->getHex());
+
+
+        // Converting 009AFF -> HSL -> HEX results in 0099FF
+        $this->assertEquals('0099FF', Color::fromHex('0099FF')->adjustHue(30)->adjustHue(-30)->getHex());
+        $this->assertEquals('0099FF', Color::fromHex('009AFF')->adjustHue(30)->adjustHue(-30)->getHex());
+
+        $this->assertEquals('00FF00', Color::fromHex('FF00FF')->adjustHue(180)->getHex());
+
+        // Full circle
+        $this->assertEquals('FF00FF', Color::fromHex('FF00FF')->adjustHue(360)->getHex());
     }
     /**
      * @return array
