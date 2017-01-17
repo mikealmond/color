@@ -25,29 +25,57 @@ class PaletteGenerator
         $numberToLighten = floor(($this->baseColor->getHsl()['l'] * 80) / $percentage);
 
         for ($i = $numberToLighten ; $i > 0; $i--) {
-            array_push($colors, $this->baseColor->lighten($percentage * $i)->getHex());
+            array_push($colors, $this->baseColor->lighten($percentage * $i));
         }
-        array_push($colors, $this->baseColor->getHex());
+        array_push($colors, $this->baseColor);
 
         $j = 0;
         for ($i = $numberToLighten; $i < $steps - 1; $i++) {
             $j++;
-            array_push($colors, $this->baseColor->darken($percentage * $j)->getHex());
+            array_push($colors, $this->baseColor->darken($percentage * $j));
         }
 
         return $colors;
     }
 
+    /**
+     * @param int $distance
+     *
+     * @return Color[]
+     */
     public function adjacent($distance = self::DEFAULT_DISTANCE): array
     {
-        
+        return [
+            $this->baseColor->adjustHue($distance * -1),
+            $this->baseColor,
+            $this->baseColor->adjustHue($distance),
+        ];
     }
-
+    /**
+     * @param int $distance
+     *
+     * @return Color[]
+     */
     public function triad($distance = self::DEFAULT_DISTANCE): array
     {
+        return [
+            $this->baseColor,
+            $this->baseColor->adjustHue(180 - $distance),
+            $this->baseColor->adjustHue(180 + $distance),
+        ];
     }
-
+    /**
+     * @param int $distance
+     *
+     * @return Color[]
+     */
     public function tetrad($distance = self::DEFAULT_DISTANCE): array
     {
+        return [
+            $this->baseColor,
+            $this->baseColor->adjustHue($distance * -1),
+            $this->baseColor->adjustHue(180),
+            $this->baseColor->adjustHue(180 + $distance),
+        ];
     }
 }
