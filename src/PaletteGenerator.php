@@ -27,12 +27,11 @@ class PaletteGenerator
         for ($i = $numberToLighten ; $i > 0; $i--) {
             array_push($colors, $this->baseColor->lighten($percentage * $i));
         }
+        
         array_push($colors, $this->baseColor);
 
-        $j = 0;
-        for ($i = $numberToLighten; $i < $steps - 1; $i++) {
-            $j++;
-            array_push($colors, $this->baseColor->darken($percentage * $j));
+        for ($i = 1; $i < $steps - $numberToLighten + 1; $i++) {
+            array_push($colors, $this->baseColor->darken($percentage * $i));
         }
 
         return $colors;
