@@ -148,7 +148,7 @@ class Color implements \JsonSerializable
 
     private static function hueToDegress($hue)
     {
-        return $hue * 60;
+        return ceil($hue * 360);
     }
 
 
@@ -443,19 +443,15 @@ class Color implements \JsonSerializable
         }
         $colors = $this->getHsl();
 
-        var_dump(self::hueToDegress($colors['h']));
+        $hue = self::hueToDegress($colors['h']) + $degrees;
 
-        $colors['h'] += self::degreesToHue($degrees);;
-        var_dump($colors);
-
-        if ($colors['h'] > 1) {
-            $colors['h'] -= 1;
-        } else if ($colors['h'] < 0) {
-            $colors['h'] += 1;
+        if ($hue > 360) {
+            $hue -= 360;
+        } else if ($hue < 0) {
+            $hue += 360;
         }
 
-        var_dump($colors);
-        $lighterColor = self::hslToRgb($colors['h'], $colors['s'], min(round($colors['l'], 5), 255));
+        $lighterColor = self::hslToRgb(self::degreesToHue($hue), $colors['s'], min(round($colors['l'], 5), 255));
 
         return new self(...array_values($lighterColor));
     }

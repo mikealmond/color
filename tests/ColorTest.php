@@ -179,11 +179,10 @@ class ColorTest extends \PHPUnit_Framework_TestCase
     public function testAdjustHue()
     {
         $color = Color::fromHex('0099FF');
-        $otherColor = $color->adjustHue(30);
-        $otherColor = $otherColor->adjustHue(-30);
 
-        $this->assertEquals('0099FF', $otherColor->getHex());
+        $this->assertEquals('FF6600', $color->adjustHue(180)->getHex());
 
+        $this->assertEquals('0099FF', $color->adjustHue(30)->adjustHue(-30)->getHex());
     }
     /**
      * @return array
