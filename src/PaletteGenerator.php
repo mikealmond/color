@@ -20,15 +20,19 @@ class PaletteGenerator
      */
     public function monochromatic($steps = 5): array
     {
-        $percentage = 100 / $steps;
+        $colors          = [];
+        $percentage      = 80 / $steps;
+        $numberToLighten = floor(($this->baseColor->getHsl()['l'] * 80) / $percentage);
 
-        /** @var Color[] $colors */
-        $colors = [
-            $this->baseColor,
-        ];
+        for ($i = $numberToLighten ; $i > 0; $i--) {
+            array_push($colors, $this->baseColor->lighten($percentage * $i)->getHex());
+        }
+        array_push($colors, $this->baseColor->getHex());
 
-        for ($i = 1; $i <= $steps; $i++) {
-            array_push($colors, $colors[$i - 1]->darken($percentage));
+        $j = 0;
+        for ($i = $numberToLighten; $i < $steps - 1; $i++) {
+            $j++;
+            array_push($colors, $this->baseColor->darken($percentage * $j)->getHex());
         }
 
         return $colors;
@@ -36,6 +40,7 @@ class PaletteGenerator
 
     public function adjacent($distance = self::DEFAULT_DISTANCE): array
     {
+        
     }
 
     public function triad($distance = self::DEFAULT_DISTANCE): array

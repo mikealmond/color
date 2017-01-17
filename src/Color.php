@@ -426,7 +426,7 @@ class Color implements \JsonSerializable
         $colors = $this->getHsl();
         $colors['l'] += ($percentage / 100);
 
-        $lighterColor = self::hslToRgb($colors['h'], $colors['s'], min(round($colors['l'], 5), 255));
+        $lighterColor = self::hslToRgb($colors['h'], $colors['s'], min(round($colors['l'], 5), 1));
 
         return new self(...array_values($lighterColor));
     }
