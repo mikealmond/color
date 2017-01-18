@@ -143,7 +143,6 @@ class ColorTest extends \PHPUnit_Framework_TestCase
         $red1 = Color::fromHsl(0, 1, 0.5);
         $red2 = Color::fromRgb(255, 0, 0);
         $this->assertEquals(true, $red1->equals($red2));
-
     }
 
     /**
@@ -164,7 +163,6 @@ class ColorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(true, Color::fromHex('009AFF')->equals(Color::fromRgb(0, 154, 255)));
         $this->assertEquals(true, Color::fromHex('0099FF')->equals(Color::fromRgb(0, 153, 255)));
-
     }
 
     public function testLuminosityContrast()

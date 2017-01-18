@@ -1,22 +1,9 @@
 # Changelog
 
-All Notable changes to `color` will be documented in this file.
-
-Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
-
-## NEXT - YYYY-MM-DD
+## 0.0.1 - 2017-01-18
 
 ### Added
-- Nothing
-
-### Deprecated
-- Nothing
-
-### Fixed
-- Nothing
-
-### Removed
-- Nothing
-
-### Security
-- Nothing
+- Alter color lightness, darkness, and hue
+- Calculate brightness and luminosity contrast between two colours
+- Generate color palettes based on a color
+- Convert from hex to RGB to HSL

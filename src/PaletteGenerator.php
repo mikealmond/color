@@ -24,7 +24,7 @@ class PaletteGenerator
         $percentage      = 80 / $steps;
         $numberToLighten = floor(($this->baseColor->getHsl()['l'] * 80) / $percentage);
 
-        for ($i = $numberToLighten ; $i > 0; $i--) {
+        for ($i = $numberToLighten; $i > 0; $i--) {
             array_push($colors, $this->baseColor->lighten($percentage * $i));
         }
 

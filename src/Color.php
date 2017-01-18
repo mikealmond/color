@@ -289,7 +289,6 @@ class Color implements \JsonSerializable
         // If chroma is 0, the given color is grey
         // therefore hue and saturation are set to 0
         if ($chroma == 0) {
-
             return ['h' => 0, 's' => 0, 'l' => $lightness];
         }
 
@@ -469,7 +468,7 @@ class Color implements \JsonSerializable
 
         if ($hue >= 360) {
             $hue -= 360;
-        } else if ($hue < 0) {
+        } elseif ($hue < 0) {
             $hue += 360;
         }
 
@@ -488,4 +487,3 @@ class Color implements \JsonSerializable
         return $this->getHex() == $color->getHex();
     }
 }
-

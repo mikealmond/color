@@ -64,5 +64,4 @@ class PaletteGeneratorTest extends \PHPUnit_Framework_TestCase
         self::assertEquals('00FFE5', $palette[2]->getHex());
         self::assertEquals('FFE600', $palette[3]->getHex());
     }
-
 }
