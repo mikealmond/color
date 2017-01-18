@@ -6,7 +6,7 @@ namespace MikeAlmond\Color;
 
 class PaletteGenerator
 {
-    const DEFAULT_DISTANCE = 30;
+    const DEFAULT_DISTANCE = 40;
 
     public function __construct(Color $baseColor)
     {
@@ -72,8 +72,8 @@ class PaletteGenerator
     {
         return [
             $this->baseColor,
-            $this->baseColor->adjustHue($distance * -1),
             $this->baseColor->adjustHue(180),
+            $this->baseColor->adjustHue($distance * -1),
             $this->baseColor->adjustHue(180 + $distance),
         ];
     }

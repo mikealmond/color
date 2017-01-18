@@ -30,11 +30,10 @@ class PaletteGeneratorTest extends \PHPUnit_Framework_TestCase
 
     public function testAdjacent()
     {
-
         $base = Color::fromHex('0099FF');
 
         $generator = new PaletteGenerator($base);
-        $palette = $generator->adjacent();
+        $palette = $generator->adjacent(30);
 
         self::assertEquals('00FFE5', $palette[0]->getHex());
         self::assertEquals('0099FF', $palette[1]->getHex());
@@ -46,7 +45,7 @@ class PaletteGeneratorTest extends \PHPUnit_Framework_TestCase
         $base = Color::fromHex('0099FF');
 
         $generator = new PaletteGenerator($base);
-        $palette = $generator->triad();
+        $palette = $generator->triad(30);
 
         self::assertEquals('0099FF', $palette[0]->getHex());
         self::assertEquals('FF0019', $palette[1]->getHex());
@@ -58,11 +57,11 @@ class PaletteGeneratorTest extends \PHPUnit_Framework_TestCase
         $base = Color::fromHex('0099FF');
 
         $generator = new PaletteGenerator($base);
-        $palette = $generator->tetrad();
+        $palette = $generator->tetrad(30);
 
         self::assertEquals('0099FF', $palette[0]->getHex());
-        self::assertEquals('00FFE5', $palette[1]->getHex());
-        self::assertEquals('FF6600', $palette[2]->getHex());
+        self::assertEquals('FF6600', $palette[1]->getHex());
+        self::assertEquals('00FFE5', $palette[2]->getHex());
         self::assertEquals('FFE600', $palette[3]->getHex());
     }
 
