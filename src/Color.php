@@ -406,7 +406,7 @@ class Color implements \JsonSerializable
      */
     public function isDark() : bool
     {
-        return $this->getHsl()['l'] < 0.5;
+        return $this->getBrightness() < 136;
     }
 
     /**
@@ -415,10 +415,10 @@ class Color implements \JsonSerializable
     public function getMatchingTextColor()
     {
         if ($this->isDark()) {
-            return $this->lighten(90);
+            return $this->lighten(150);
         }
 
-        return $this->darken(90);
+        return $this->darken(100);
     }
 
     /**
@@ -429,7 +429,7 @@ class Color implements \JsonSerializable
     public function darken($percentage) : Color
     {
         $colors = $this->getHsl();
-        $colors['l'] -= ($percentage / 100);
+        $colors['l'] -= $colors['l'] * ($percentage / 100);
 
         $darkerColor = self::hslToRgb($colors['h'], $colors['s'], max(round($colors['l'], 5), 0));
 
@@ -444,7 +444,7 @@ class Color implements \JsonSerializable
     public function lighten($percentage) : Color
     {
         $colors = $this->getHsl();
-        $colors['l'] += ($percentage / 100);
+        $colors['l'] += $colors['l'] * ($percentage / 100);
 
         $lighterColor = self::hslToRgb($colors['h'], $colors['s'], min(round($colors['l'], 5), 1));
 

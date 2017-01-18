@@ -98,14 +98,13 @@ class ColorTest extends \PHPUnit_Framework_TestCase
     public function testDarkerColor()
     {
         $darkerColor = Color::fromHex('CCCCCC')->darken(20);
-
-        $this->assertEquals('999999', strval($darkerColor));
+        $this->assertEquals('A4A4A4', strval($darkerColor));
 
         $darkerColor = Color::fromHex('000000')->darken(20);
         $this->assertEquals('000000', strval($darkerColor));
 
         $darkerColor = Color::fromHex('0099FF')->darken(20);
-        $this->assertEquals('005C99', strval($darkerColor));
+        $this->assertEquals('007ACC', strval($darkerColor));
 
         $darkerColor = Color::fromHex('FFFFFF')->darken(20);
         $this->assertEquals('CCCCCC', strval($darkerColor));
@@ -114,13 +113,13 @@ class ColorTest extends \PHPUnit_Framework_TestCase
     public function testLightenColor()
     {
         $lighterColor = Color::fromHex('999999')->lighten(20);
-        $this->assertEquals('CCCCCC', strval($lighterColor));
+        $this->assertEquals('B8B8B8', strval($lighterColor));
 
         $lighterColor = Color::fromHex('000000')->lighten(20);
-        $this->assertEquals('333333', strval($lighterColor));
+        $this->assertEquals('000000', strval($lighterColor));
 
         $lighterColor = Color::fromHex('CCCCCC')->lighten(20);
-        $this->assertEquals('FFFFFF', strval($lighterColor));
+        $this->assertEquals('F5F5F5', strval($lighterColor));
     }
 
     public function testHsl()

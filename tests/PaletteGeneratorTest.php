@@ -24,7 +24,7 @@ class PaletteGeneratorTest extends \PHPUnit_Framework_TestCase
         $palette = $generator->monochromatic(7);
 
 
-        self::assertEquals('5F5F5F', $palette[6]->getHex());
+        self::assertEquals('777777', $palette[6]->getHex());
     }
 
 
