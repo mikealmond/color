@@ -18,25 +18,34 @@ $ composer require mikealmond/color
 
 ## Usage
 
-``` php
+```php
 $color = Color::fromHex('FFFFFF');
 echo $color->getRgb()['b']; // 255
 
-$darkerColor = $color->darken(20); // 20% darker
+/** @var Color $darkerColor */
+$darkerColor = $color->darken(50); // 50% darker
 
-echo $darkerColor; // 'CCCCCC'
+echo $darkerColor; // implements `__toString()`
 
 if ($darkerColor->isDark()) {
     // do something with a dark color
 }
+```
 
+```php
+// Create a color palette based on #663399
+$color     = Color::fromCssColor('RebeccaPurple');
+$generator = new PaletteGenerator($color);
+$palette   = $generator->triad(40);
 
-$darkerTextColor = $darkerColor->getMatchingTextColor();
-
-
-$generator = new PaletteGenerator($darkerColor);
-$palette   = $generator->monochromatic(5);
-
+foreach ($palette as $color) {
+    printf(
+    '<div style="background-color:%s;color:%s;text-align:center;">%s</div>',
+        CssGenerator::hex($color),
+        CssGenerator::hex($color->getMatchingTextColor()),
+        CssGenerator::rgb($color)
+    );
+}
 ```
 
 ## Change log
