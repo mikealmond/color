@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.2 - 2017-01-24
+
+### Fixed
+- Allow hex values to include initial #
+
 ## 0.0.1 - 2017-01-24
 
 ### Added

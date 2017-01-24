@@ -81,6 +81,10 @@ class ColorTest extends \PHPUnit_Framework_TestCase
 
         $color = Color::fromRgb(255, 0, 255);
         $this->assertEquals('FF00FF', strval($color));
+
+
+        $this->assertEquals('FF00FF', Color::fromHex('#FF00FF'));
+
     }
 
     /**
@@ -262,6 +266,7 @@ class ColorTest extends \PHPUnit_Framework_TestCase
             ['09F'],
             ['AAABBB'],
             ['0099FF'],
+            ['#0099FF'],
         ];
     }
 

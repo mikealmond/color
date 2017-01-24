@@ -102,6 +102,8 @@ class Color implements \JsonSerializable
      */
     private static function hexToRgb(string $color): array
     {
+        $color = ltrim($color, '#');
+
         // Convert the shorthand hex to the full hex (09F => 0099FF)
         if (strlen($color) == 3) {
             $color = $color[0] . $color[0] . $color[1] . $color[1] . $color[2] . $color[2];
