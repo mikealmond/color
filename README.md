@@ -6,7 +6,7 @@
 [![Total Downloads][ico-downloads]][link-downloads]
 
 
-This library will allow you to alter colours, check readability, and generate different palettes based on a base color.
+This library will allow you to alter colors, check readability, and generate different palettes based on a base color.
 
 ## Install
 
