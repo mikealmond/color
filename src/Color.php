@@ -379,6 +379,7 @@ class Color implements \JsonSerializable
      */
     public function getMatchingTextColor()
     {
+        // Always set black's matching text color to CCCCCC
         if ($this->getHsl()['l'] == 0) {
             return self::fromHex('CCCCCC');
         }
