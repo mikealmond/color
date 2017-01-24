@@ -110,6 +110,13 @@ class ColorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('CCCCCC', strval($darkerColor));
     }
 
+    public function testIsDark()
+    {
+        $this->assertEquals(false, Color::fromHex('FFFFFF')->isDark());
+
+        $this->assertEquals(true, Color::fromHex('000000')->isDark());
+    }
+
     public function testLightenColor()
     {
         $lighterColor = Color::fromHex('999999')->lighten(20);
@@ -181,28 +188,26 @@ class ColorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(false, $white1->isReadable($white2));
     }
 
-
     public function testAdjustHue()
     {
 
-        $color = Color::fromHex('0099FF');
-        $hue = $color->getHsl();
+        $color     = Color::fromHex('0099FF');
+        $hue       = $color->getHsl();
         $sameColor = Color::fromHsl($hue['h'], $hue['s'], $hue['l']);
         $this->assertEquals($color->getHex(), $sameColor->getHex());
 
         /**
          * Failing test
-
-            $color = Color::fromHex('009AFF');
-            $hue = $color->getHsl();
-            $sameColor = Color::fromHsl($hue['h'], $hue['s'], $hue['l']);
-            $this->assertEquals(0, $hue['h'] - $sameColor->getHsl()['h']);
-        */
+         *
+         * $color = Color::fromHex('009AFF');
+         * $hue = $color->getHsl();
+         * $sameColor = Color::fromHsl($hue['h'], $hue['s'], $hue['l']);
+         * $this->assertEquals(0, $hue['h'] - $sameColor->getHsl()['h']);
+         */
 
         $this->assertEquals('00FF00', Color::fromHex('FF0000')->adjustHue(120)->getHex());
 
         $this->assertEquals('FF6600', Color::fromHex('0099FF')->adjustHue(180)->getHex());
-
 
         // Converting 009AFF -> HSL -> HEX results in 0099FF
         $this->assertEquals('0099FF', Color::fromHex('0099FF')->adjustHue(30)->adjustHue(-30)->getHex());
@@ -212,7 +217,27 @@ class ColorTest extends \PHPUnit_Framework_TestCase
 
         // Full circle
         $this->assertEquals('FF00FF', Color::fromHex('FF00FF')->adjustHue(360)->getHex());
+
+        $this->assertEquals('FF00FF', Color::fromHex('FF00FF')->adjustHue(-360)->getHex());
     }
+
+    /**
+     */
+    public function testBadAdjustment()
+    {
+        $this->expectException('\MikeAlmond\Color\Exceptions\ColorException');
+
+        Color::fromHex('FF00FF')->adjustHue(720)->getHex();
+    }
+
+    public function testMatchingTextColor()
+    {
+        $this->assertEquals('FFFFFF', Color::fromHex('C91414')->getMatchingTextColor()->getHex());
+        $this->assertEquals('000000', Color::fromHex('5CF081')->getMatchingTextColor()->getHex());
+        $this->assertEquals('F8BABA', Color::fromHex('930F0E')->getMatchingTextColor()->getHex());
+        $this->assertEquals('CCCCCC', Color::fromHex('000000')->getMatchingTextColor()->getHex());
+    }
+
     /**
      * @return array
      */
@@ -263,5 +288,19 @@ class ColorTest extends \PHPUnit_Framework_TestCase
             [0, 0, 250],
             [100, 100, 0],
         ];
+    }
+
+    public function testCssColor()
+    {
+        $this->assertEquals('FFFFFF', Color::fromCssColor('white')->getHex());
+        $this->assertEquals('40E0D0', Color::fromCssColor('turquoise')->getHex());
+        $this->assertEquals('00FFFF', Color::fromCssColor('cyan')->getHex());
+        $this->assertEquals('00FFFF', Color::fromCssColor('aqua')->getHex());
+    }
+
+    public function testBadCssColor()
+    {
+        $this->expectException('\MikeAlmond\Color\Exceptions\ColorException');
+        $this->assertEquals('FFFFFF', Color::fromCssColor('AlmondJoy')->getHex());
     }
 }

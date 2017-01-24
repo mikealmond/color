@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Almond
- * Date: 2017-01-17
- * Time: 1:19 PM
- */
 
 namespace MikeAlmond\Color;
 

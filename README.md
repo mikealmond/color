@@ -25,6 +25,18 @@ echo $color->getRgb()['b']; // 255
 $darkerColor = $color->darken(20); // 20% darker
 
 echo $darkerColor; // 'CCCCCC'
+
+if ($darkerColor->isDark()) {
+    // do something with a dark color
+}
+
+
+$darkerTextColor = $darkerColor->getMatchingTextColor();
+
+
+$generator = new PaletteGenerator($darkerColor);
+$palette   = $generator->monochromatic(5);
+
 ```
 
 ## Change log

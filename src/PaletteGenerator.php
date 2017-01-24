@@ -4,10 +4,22 @@ declare(strict_types = 1);
 
 namespace MikeAlmond\Color;
 
+/**
+ * Class PaletteGenerator
+ * @package MikeAlmond\Color
+ */
 class PaletteGenerator
 {
+    /**
+     *
+     */
     const DEFAULT_DISTANCE = 40;
 
+    /**
+     * PaletteGenerator constructor.
+     *
+     * @param \MikeAlmond\Color\Color $baseColor
+     */
     public function __construct(Color $baseColor)
     {
         $this->baseColor = $baseColor;
@@ -50,6 +62,7 @@ class PaletteGenerator
             $this->baseColor->adjustHue($distance),
         ];
     }
+
     /**
      * @param int $distance
      *
@@ -63,6 +76,7 @@ class PaletteGenerator
             $this->baseColor->adjustHue(180 + $distance),
         ];
     }
+
     /**
      * @param int $distance
      *
