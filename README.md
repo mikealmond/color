@@ -1,9 +1,8 @@
 # color
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/mikealmond/color.svg?style=flat-square)](https://packagist.org/packages/mikealmond/color)
-[![Build Status](https://img.shields.io/travis/mikealmond/color/master.svg?style=flat-square)](https://travis-ci.org/mikealmond/color)
-[![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/mikealmond/color.svg?style=flat-square)](https://scrutinizer-ci.com/g/mikealmond/color/code-structure)
-[![Quality Score](https://img.shields.io/scrutinizer/g/mikealmond/color.svg?style=flat-square)](https://scrutinizer-ci.com/g/mikealmond/color)
+[![Build Status](https://scrutinizer-ci.com/g/mikealmond/color/badges/build.png?b=master)](https://scrutinizer-ci.com/g/mikealmond/color/build-status/master)
+[![Code Coverage](https://scrutinizer-ci.com/g/mikealmond/color/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/mikealmond/color/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mikealmond/color/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mikealmond/color/?branch=master)
 
 
 This library will allow you to alter colors, check readability, and generate different palettes based on a base color.
