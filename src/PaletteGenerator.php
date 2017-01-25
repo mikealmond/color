@@ -11,14 +11,19 @@ namespace MikeAlmond\Color;
 class PaletteGenerator
 {
     /**
-     *
+     * The default distance in degrees to calculate hue adjustments
      */
     const DEFAULT_DISTANCE = 40;
 
     /**
+     * @var Color
+     */
+    public $baseColor;
+
+    /**
      * PaletteGenerator constructor.
      *
-     * @param \MikeAlmond\Color\Color $baseColor
+     * @param Color $baseColor
      */
     public function __construct(Color $baseColor)
     {

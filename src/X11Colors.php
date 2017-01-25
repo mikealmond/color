@@ -1831,7 +1831,7 @@ class X11Colors
      */
     public static function search(string $needle): string
     {
-        $result = self::arraySearch($needle);
+        $result = self::arraySearch($needle, self::$colors);
 
         if (!empty($result)) {
             return $result;
@@ -1846,16 +1846,11 @@ class X11Colors
      *
      * @return string
      */
-    private static function arraySearch(string $needle, array $haystack = []): string
+    private static function arraySearch(string $needle, array $haystack): string
     {
-        if (empty($haystack)) {
-            $haystack = self::$colors;
-        }
-
         foreach ($haystack as $key => $value) {
-            $currentKey = $key;
             if ($needle === $value || (is_array($value) && self::arraySearch($needle, $value) !== '')) {
-                return $currentKey;
+                return $key;
             }
         }
 
