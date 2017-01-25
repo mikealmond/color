@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.3 - 2017-01-24
+
+### Changed
+- Support back to PHP 5.5 (this will probably change for a v0.1.0 release)
+
 ## 0.0.2 - 2017-01-24
 
 ### Fixed

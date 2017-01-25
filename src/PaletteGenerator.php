@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace MikeAlmond\Color;
 
 /**
@@ -35,7 +33,7 @@ class PaletteGenerator
      *
      * @return Color[]
      */
-    public function monochromatic($steps = 5): array
+    public function monochromatic($steps = 5)
     {
         $colors          = [];
         $percentage      = 80 / $steps;
@@ -59,7 +57,7 @@ class PaletteGenerator
      *
      * @return Color[]
      */
-    public function adjacent($distance = self::DEFAULT_DISTANCE): array
+    public function adjacent($distance = self::DEFAULT_DISTANCE)
     {
         return [
             $this->baseColor->adjustHue($distance * -1),
@@ -73,7 +71,7 @@ class PaletteGenerator
      *
      * @return Color[]
      */
-    public function triad($distance = self::DEFAULT_DISTANCE): array
+    public function triad($distance = self::DEFAULT_DISTANCE)
     {
         return [
             $this->baseColor,
@@ -87,7 +85,7 @@ class PaletteGenerator
      *
      * @return Color[]
      */
-    public function tetrad($distance = self::DEFAULT_DISTANCE): array
+    public function tetrad($distance = self::DEFAULT_DISTANCE)
     {
         return [
             $this->baseColor,

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace MikeAlmond\Color;
 
 use MikeAlmond\Color\Exceptions\ColorException;
@@ -30,7 +28,7 @@ class Color implements \JsonSerializable
      * @param $green
      * @param $blue
      */
-    private function __construct(int $red, int $green, int $blue)
+    private function __construct($red, $green, $blue)
     {
         $this->colors = [
             'r' => $red,
@@ -44,13 +42,15 @@ class Color implements \JsonSerializable
      *
      * @return Color
      */
-    public static function fromHex(string $color): Color
+    public static function fromHex($color)
     {
         if (!Validator::isValidHex($color)) {
             throw new InvalidColorException('Invalid hex value');
         }
 
-        return new self(...array_values(self::hexToRgb($color)));
+        $rgb = self::hexToRgb($color);
+
+        return new self($rgb['r'], $rgb['g'], $rgb['b']);
     }
 
     /**
@@ -60,7 +60,7 @@ class Color implements \JsonSerializable
      *
      * @return Color
      */
-    public static function fromRgb(int $red, int $green, int $blue): Color
+    public static function fromRgb( $red,  $green,  $blue)
     {
         if (!Validator::isValidRgb($red, $green, $blue)) {
             throw new InvalidColorException('Invalid RGB values');
@@ -76,13 +76,15 @@ class Color implements \JsonSerializable
      *
      * @return Color
      */
-    public static function fromHsl($hue, $saturation, $lightness): Color
+    public static function fromHsl($hue, $saturation, $lightness)
     {
         if (!Validator::isValidHsl($hue, $saturation, $lightness)) {
             throw new InvalidColorException('Invalid HSL value');
         }
 
-        return new self(...array_values(self::hslToRgb($hue, $saturation, $lightness)));
+        $rgb = self::hslToRgb($hue, $saturation, $lightness);
+
+        return new self($rgb['r'], $rgb['g'], $rgb['b']);
     }
 
     /**
@@ -90,7 +92,7 @@ class Color implements \JsonSerializable
      *
      * @return Color
      */
-    public static function fromCssColor(string $color): Color
+    public static function fromCssColor($color)
     {
         return self::fromHex(X11Colors::search($color));
     }
@@ -100,7 +102,7 @@ class Color implements \JsonSerializable
      *
      * @return array
      */
-    private static function hexToRgb(string $color): array
+    private static function hexToRgb($color)
     {
         $color = ltrim($color, '#');
 
@@ -131,7 +133,7 @@ class Color implements \JsonSerializable
      *
      * @return mixed
      */
-    private static function hueToRgb($p, $q, $hue): float
+    private static function hueToRgb($p, $q, $hue)
     {
         if ($hue < 0) {
             $hue += 1;
@@ -167,7 +169,7 @@ class Color implements \JsonSerializable
      *
      * @return array
      */
-    private static function hslToRgb($hue, $saturation, $lightness): array
+    private static function hslToRgb($hue, $saturation, $lightness)
     {
         // If saturation is 0, the given color is grey and only
         // lightness is relevant.
@@ -203,7 +205,7 @@ class Color implements \JsonSerializable
      *
      * @return bool
      */
-    public function isReadable(Color $color): bool
+    public function isReadable(Color $color)
     {
         return $this->brightnessDifference($color) >= 100;
     }
@@ -211,7 +213,7 @@ class Color implements \JsonSerializable
     /**
      * @return bool
      */
-    public function isDark(): bool
+    public function isDark()
     {
         return $this->getBrightness() < 136;
     }
@@ -221,7 +223,7 @@ class Color implements \JsonSerializable
      *
      * @return bool
      */
-    public function equals(Color $color): bool
+    public function equals(Color $color)
     {
         return $this->getHex() == $color->getHex();
     }
@@ -230,7 +232,7 @@ class Color implements \JsonSerializable
      *
      * @return float
      */
-    public function getLuminosity(): float
+    public function getLuminosity()
     {
         return 0.2126 * pow($this->colors['r'] / 255, 2.2)
             + 0.7152 * pow($this->colors['g'] / 255, 2.2)
@@ -243,7 +245,7 @@ class Color implements \JsonSerializable
      *
      * @return float
      */
-    public function getBrightness(): float
+    public function getBrightness()
     {
         return (($this->colors['r'] * 299) + ($this->colors['g'] * 587) + ($this->colors['b'] * 114)) / 1000;
     }
@@ -256,7 +258,7 @@ class Color implements \JsonSerializable
      *
      * @return int
      */
-    public function colorDifference(Color $color): int
+    public function colorDifference(Color $color)
     {
         $color2 = $color->getRgb();
 
@@ -273,7 +275,7 @@ class Color implements \JsonSerializable
      *
      * @return float
      */
-    public function brightnessDifference(Color $color): float
+    public function brightnessDifference(Color $color)
     {
         $difference = $this->getBrightness() - $color->getBrightness();
 
@@ -292,7 +294,7 @@ class Color implements \JsonSerializable
      *
      * @return float
      */
-    public function luminosityContrast(Color $color): float
+    public function luminosityContrast(Color $color)
     {
         $colorLuminosity1 = $this->getLuminosity() + 0.05;
         $colorLuminosity2 = $color->getLuminosity() + 0.05;
@@ -303,7 +305,7 @@ class Color implements \JsonSerializable
     /**
      * @return string
      */
-    public function getHex(): string
+    public function getHex()
     {
         return sprintf(
             '%02X%02X%02X',
@@ -316,7 +318,7 @@ class Color implements \JsonSerializable
     /**
      * @return int[]
      */
-    public function getRgb(): array
+    public function getRgb()
     {
         return $this->colors;
     }
@@ -327,7 +329,7 @@ class Color implements \JsonSerializable
      *
      * @return array
      */
-    public function getHsl(): array
+    public function getHsl()
     {
         $red   = $this->colors['r'] / 255;
         $green = $this->colors['g'] / 255;
@@ -408,14 +410,14 @@ class Color implements \JsonSerializable
      *
      * @return Color
      */
-    public function darken($percentage): Color
+    public function darken($percentage)
     {
         $colors = $this->getHsl();
         $colors['l'] -= $colors['l'] * ($percentage / 100);
 
         $darkerColor = self::hslToRgb($colors['h'], $colors['s'], max(round($colors['l'], 5), 0));
 
-        return new self(...array_values($darkerColor));
+        return new self($darkerColor['r'], $darkerColor['g'], $darkerColor['b']);
     }
 
     /**
@@ -423,14 +425,14 @@ class Color implements \JsonSerializable
      *
      * @return Color
      */
-    public function lighten($percentage): Color
+    public function lighten($percentage)
     {
         $colors = $this->getHsl();
         $colors['l'] += $colors['l'] * ($percentage / 100);
 
         $lighterColor = self::hslToRgb($colors['h'], $colors['s'], min(round($colors['l'], 5), 1));
 
-        return new self(...array_values($lighterColor));
+        return new self($lighterColor['r'], $lighterColor['g'], $lighterColor['b']);
     }
 
     /**
@@ -438,7 +440,7 @@ class Color implements \JsonSerializable
      *
      * @return Color
      */
-    public function adjustHue($degrees = 30): Color
+    public function adjustHue($degrees = 30)
     {
         if (!Validator::isValidAdjustment($degrees)) {
             throw new ColorException('You must specify a proper value between 360 and -360');
@@ -457,13 +459,13 @@ class Color implements \JsonSerializable
 
         $adjustedColor = self::hslToRgb($hue / 360, $colors['s'], $colors['l']);
 
-        return new self(...array_values($adjustedColor));
+        return new self($adjustedColor['r'], $adjustedColor['g'], $adjustedColor['b']);
     }
 
     /**
      * @return string
      */
-    public function __toString(): string
+    public function __toString()
     {
         return $this->getHex();
     }
@@ -471,7 +473,7 @@ class Color implements \JsonSerializable
     /**
      * @return array
      */
-    public function jsonSerialize(): array
+    public function jsonSerialize()
     {
         return $this->colors;
     }

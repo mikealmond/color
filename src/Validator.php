@@ -9,7 +9,7 @@ class Validator
      *
      * @return bool
      */
-    public static function isValidHex(string $color) : bool
+    public static function isValidHex($color)
     {
         $color = ltrim($color, '#');
 
@@ -24,7 +24,7 @@ class Validator
      *
      * @return bool|mixed
      */
-    public static function isValidRgb(int $red, int $green, int $blue) : bool
+    public static function isValidRgb($red, $green, $blue)
     {
         // Check to see the values are between 0 and 255 and return false if any are outside the bounds
         return array_reduce([$red, $green, $blue], function ($carry, $color) {
@@ -40,7 +40,7 @@ class Validator
      *
      * @return bool
      */
-    public static function isValidHsl($hue, $saturation, $lightness) : bool
+    public static function isValidHsl($hue, $saturation, $lightness)
     {
         // Check to see the values are between 0 and 1 and return false if any are outside the bounds
         return array_reduce([$hue, $saturation, $lightness], function ($carry, $color) {
@@ -54,7 +54,7 @@ class Validator
      *
      * @return bool|mixed
      */
-    public static function isValidAdjustment($degrees) : bool
+    public static function isValidAdjustment($degrees)
     {
         // Check to see the values are between -359 and 359 and return false if any are outside the bounds
         return max(min($degrees, 360), -360) === $degrees;
