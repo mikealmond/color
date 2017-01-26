@@ -1,6 +1,6 @@
 # color
 
-[![Build Status](https://scrutinizer-ci.com/g/mikealmond/color/badges/build.png?b=master)](https://scrutinizer-ci.com/g/mikealmond/color/build-status/master)
+[![Build Status](https://travis-ci.org/mikealmond/color.svg?branch=master)](https://travis-ci.org/mikealmond/color)
 [![Code Coverage](https://scrutinizer-ci.com/g/mikealmond/color/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/mikealmond/color/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mikealmond/color/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mikealmond/color/?branch=master)
 
