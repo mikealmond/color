@@ -35,7 +35,7 @@ class CssGeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidCssColorName($invalidColor)
     {
-        $this->expectException('\MikeAlmond\Color\Exceptions\ColorException');
+        $this->setExpectedException('\MikeAlmond\Color\Exceptions\ColorException');
         $this->assertEquals('black', CssGenerator::name(Color::fromHex($invalidColor)));
     }
 

@@ -17,7 +17,7 @@ class ColorTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidHexValues($color)
     {
-        $this->expectException('\MikeAlmond\Color\Exceptions\InvalidColorException');
+        $this->setExpectedException('\MikeAlmond\Color\Exceptions\InvalidColorException');
         Color::fromHex($color);
     }
 
@@ -42,7 +42,7 @@ class ColorTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidRgbValues($red, $green, $blue)
     {
-        $this->expectException('\MikeAlmond\Color\Exceptions\InvalidColorException');
+        $this->setExpectedException('\MikeAlmond\Color\Exceptions\InvalidColorException');
         try {
             Color::fromRgb($red, $green, $blue);
         } catch (\TypeError $e) {
@@ -159,7 +159,7 @@ class ColorTest extends \PHPUnit_Framework_TestCase
      */
     public function testBadHsl()
     {
-        $this->expectException('\MikeAlmond\Color\Exceptions\InvalidColorException');
+        $this->setExpectedException('\MikeAlmond\Color\Exceptions\InvalidColorException');
         $color = Color::fromHsl(1.1, 1, 0.5);
         $this->assertEquals('FF0000', strval($color));
     }
@@ -228,7 +228,7 @@ class ColorTest extends \PHPUnit_Framework_TestCase
      */
     public function testBadAdjustment()
     {
-        $this->expectException('\MikeAlmond\Color\Exceptions\ColorException');
+        $this->setExpectedException('\MikeAlmond\Color\Exceptions\ColorException');
 
         Color::fromHex('FF00FF')->adjustHue(720)->getHex();
     }
@@ -304,7 +304,7 @@ class ColorTest extends \PHPUnit_Framework_TestCase
 
     public function testBadCssColor()
     {
-        $this->expectException('\MikeAlmond\Color\Exceptions\ColorException');
+        $this->setExpectedException('\MikeAlmond\Color\Exceptions\ColorException');
         $this->assertEquals('FFFFFF', Color::fromCssColor('AlmondJoy')->getHex());
     }
 }
