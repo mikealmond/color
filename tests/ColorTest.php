@@ -84,7 +84,6 @@ class ColorTest extends \PHPUnit_Framework_TestCase
 
 
         $this->assertEquals('FF00FF', Color::fromHex('#FF00FF'));
-
     }
 
     /**

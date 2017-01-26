@@ -60,7 +60,7 @@ class Color implements \JsonSerializable
      *
      * @return Color
      */
-    public static function fromRgb( $red,  $green,  $blue)
+    public static function fromRgb($red, $green, $blue)
     {
         if (!Validator::isValidRgb($red, $green, $blue)) {
             throw new InvalidColorException('Invalid RGB values');
