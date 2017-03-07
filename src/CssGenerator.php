@@ -35,7 +35,7 @@ class CssGenerator
     public static function rgba(Color $color, $alpha = 1.0)
     {
         return sprintf(
-            'rgb(%d, %d, %d, %s)',
+            'rgba(%d, %d, %d, %s)',
             $color->getRgb()['r'],
             $color->getRgb()['g'],
             $color->getRgb()['b'],
