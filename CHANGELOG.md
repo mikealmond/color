@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.4 - 2017-03-22
+
+### Changed
+- Fix unit tests
+- Updated example theme color
+
 ## 0.0.3 - 2017-01-24
 
 ### Changed
