@@ -14,10 +14,10 @@ class CssGeneratorTest extends \PHPUnit_Framework_TestCase
 
     public function testRgba()
     {
-        $this->assertEquals('rgb(0, 255, 0, 1)', CssGenerator::rgba(Color::fromHex('00FF00'), 1));
+        $this->assertEquals('rgba(0, 255, 0, 1)', CssGenerator::rgba(Color::fromHex('00FF00'), 1));
 
-        $this->assertEquals('rgb(0, 255, 0, 0.5)', CssGenerator::rgba(Color::fromRgb(0, 255, 0), 0.5));
-        $this->assertEquals('rgb(0, 255, 0, 0.55)', CssGenerator::rgba(Color::fromRgb(0, 255, 0), 0.55));
+        $this->assertEquals('rgba(0, 255, 0, 0.5)', CssGenerator::rgba(Color::fromRgb(0, 255, 0), 0.5));
+        $this->assertEquals('rgba(0, 255, 0, 0.55)', CssGenerator::rgba(Color::fromRgb(0, 255, 0), 0.55));
     }
 
 
