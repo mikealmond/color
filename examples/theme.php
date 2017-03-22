@@ -5,7 +5,7 @@ use MikeAlmond\Color\PaletteGenerator;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$baseColor = Color::fromHex(isset($_GET['color']) ? $_GET['color'] : 'C91414');
+$baseColor = Color::fromHex(isset($_GET['color']) ? $_GET['color'] : '5C84C2');
 $generator = new PaletteGenerator($baseColor);
 $distance  = isset($_GET['distance']) ? $_GET['distance'] : 45;
 
