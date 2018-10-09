@@ -26,9 +26,9 @@ class Color implements \JsonSerializable
     /**
      * Create a new Skeleton Instance
      *
-     * @param $red
-     * @param $green
-     * @param $blue
+     * @param int $red
+     * @param int $green
+     * @param int $blue
      */
     private function __construct(int $red, int $green, int $blue)
     {
@@ -40,7 +40,7 @@ class Color implements \JsonSerializable
     }
 
     /**
-     * @param $color
+     * @param string $color
      *
      * @return Color
      */
@@ -54,9 +54,9 @@ class Color implements \JsonSerializable
     }
 
     /**
-     * @param $red
-     * @param $green
-     * @param $blue
+     * @param int $red
+     * @param int $green
+     * @param int $blue
      *
      * @return Color
      */
@@ -70,13 +70,13 @@ class Color implements \JsonSerializable
     }
 
     /**
-     * @param $hue
-     * @param $saturation
-     * @param $lightness
+     * @param float $hue
+     * @param float $saturation
+     * @param float $lightness
      *
      * @return Color
      */
-    public static function fromHsl($hue, $saturation, $lightness): Color
+    public static function fromHsl(float $hue, float $saturation, float $lightness): Color
     {
         if (!Validator::isValidHsl($hue, $saturation, $lightness)) {
             throw new InvalidColorException('Invalid HSL value');
@@ -86,7 +86,7 @@ class Color implements \JsonSerializable
     }
 
     /**
-     * @param $color
+     * @param string $color
      *
      * @return Color
      */
@@ -161,13 +161,13 @@ class Color implements \JsonSerializable
      *
      * Assumes h, s, and l are in the set [0-1]
      *
-     * @param $hue
-     * @param $saturation
-     * @param $lightness
+     * @param float $hue
+     * @param float $saturation
+     * @param float $lightness
      *
      * @return array
      */
-    private static function hslToRgb($hue, $saturation, $lightness): array
+    private static function hslToRgb(float $hue, float $saturation, float $lightness): array
     {
         // If saturation is 0, the given color is grey and only
         // lightness is relevant.
@@ -404,11 +404,11 @@ class Color implements \JsonSerializable
     }
 
     /**
-     * @param $percentage
+     * @param float $percentage
      *
      * @return Color
      */
-    public function darken($percentage): Color
+    public function darken(float $percentage): Color
     {
         $colors = $this->getHsl();
         $colors['l'] -= $colors['l'] * ($percentage / 100);
@@ -419,11 +419,11 @@ class Color implements \JsonSerializable
     }
 
     /**
-     * @param $percentage
+     * @param float $percentage
      *
      * @return Color
      */
-    public function lighten($percentage): Color
+    public function lighten(float $percentage): Color
     {
         $colors = $this->getHsl();
         $colors['l'] += $colors['l'] * ($percentage / 100);
@@ -434,11 +434,11 @@ class Color implements \JsonSerializable
     }
 
     /**
-     * @param $degrees
+     * @param float $degrees
      *
      * @return Color
      */
-    public function adjustHue($degrees = 30): Color
+    public function adjustHue(float $degrees = 30): Color
     {
         if (!Validator::isValidAdjustment($degrees)) {
             throw new ColorException('You must specify a proper value between 360 and -360');

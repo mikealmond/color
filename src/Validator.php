@@ -34,13 +34,13 @@ class Validator
 
     /**
      *
-     * @param $hue
-     * @param $saturation
-     * @param $lightness
+     * @param float $hue
+     * @param float $saturation
+     * @param float $lightness
      *
      * @return bool
      */
-    public static function isValidHsl($hue, $saturation, $lightness) : bool
+    public static function isValidHsl(float $hue, float $saturation, float $lightness) : bool
     {
         // Check to see the values are between 0 and 1 and return false if any are outside the bounds
         return array_reduce([$hue, $saturation, $lightness], function ($carry, $color) {
@@ -50,11 +50,11 @@ class Validator
 
     /**
      *
-     * @param $degrees
+     * @param float $degrees
      *
      * @return bool|mixed
      */
-    public static function isValidAdjustment($degrees) : bool
+    public static function isValidAdjustment(float $degrees) : bool
     {
         // Check to see the values are between -359 and 359 and return false if any are outside the bounds
         return max(min($degrees, 360), -360) === $degrees;

@@ -35,7 +35,7 @@ class PaletteGenerator
      *
      * @return Color[]
      */
-    public function monochromatic($steps = 5): array
+    public function monochromatic(int $steps = 5): array
     {
         $colors          = [];
         $percentage      = 80 / $steps;
@@ -59,7 +59,7 @@ class PaletteGenerator
      *
      * @return Color[]
      */
-    public function adjacent($distance = self::DEFAULT_DISTANCE): array
+    public function adjacent(int $distance = self::DEFAULT_DISTANCE): array
     {
         return [
             $this->baseColor->adjustHue($distance * -1),
@@ -73,7 +73,7 @@ class PaletteGenerator
      *
      * @return Color[]
      */
-    public function triad($distance = self::DEFAULT_DISTANCE): array
+    public function triad(int $distance = self::DEFAULT_DISTANCE): array
     {
         return [
             $this->baseColor,
@@ -87,7 +87,7 @@ class PaletteGenerator
      *
      * @return Color[]
      */
-    public function tetrad($distance = self::DEFAULT_DISTANCE): array
+    public function tetrad(int $distance = self::DEFAULT_DISTANCE): array
     {
         return [
             $this->baseColor,
