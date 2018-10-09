@@ -76,7 +76,7 @@ class CssGenerator
      *
      * @return string
      */
-    public static function hsla(Color $color, $alpha = 1.0)
+    public static function hsla(Color $color, float $alpha = 1.0)
     {
         $hsl = $color->getHsl();
 
@@ -94,7 +94,7 @@ class CssGenerator
      *
      * @return bool
      */
-    public static function hasName(Color $color)
+    public static function hasName(Color $color): bool
     {
         return isset(X11Colors::$colors[$color->getHex()]);
     }
@@ -104,7 +104,7 @@ class CssGenerator
      *
      * @return string
      */
-    public static function name(Color $color)
+    public static function name(Color $color): string
     {
         if (!self::hasName($color)) {
             throw new ColorException('No matching CSS color name found for ' . self::hex($color));

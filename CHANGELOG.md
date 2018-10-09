@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.0 - 2018-10-09
+
+### Changed
+- Remove PHP 5.5 support
+
 ## 0.0.4 - 2017-03-22
 
 ### Changed

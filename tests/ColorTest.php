@@ -2,22 +2,25 @@
 
 namespace MikeAlmond\Color;
 
+use MikeAlmond\Color\Exceptions\ColorException;
 use MikeAlmond\Color\Exceptions\InvalidColorException;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class ColorTest
  * @package MikeAlmond\Color
  */
-class ColorTest extends \PHPUnit_Framework_TestCase
+class ColorTest extends TestCase
 {
     /**
+     * @expectedException \MikeAlmond\Color\Exceptions\
      * @dataProvider badHexColors
      *
      * @param $color
      */
     public function testInvalidHexValues($color)
     {
-        $this->setExpectedException('\MikeAlmond\Color\Exceptions\InvalidColorException');
+        $this->expectException(InvalidColorException::class);
         Color::fromHex($color);
     }
 
@@ -42,7 +45,8 @@ class ColorTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidRgbValues($red, $green, $blue)
     {
-        $this->setExpectedException('\MikeAlmond\Color\Exceptions\InvalidColorException');
+        $this->expectException(InvalidColorException::class);
+
         try {
             Color::fromRgb($red, $green, $blue);
         } catch (\TypeError $e) {
@@ -62,7 +66,7 @@ class ColorTest extends \PHPUnit_Framework_TestCase
         $color = Color::fromRgb($red, $green, $blue);
 
         $this->assertInstanceOf(Color::class, $color);
-        $this->assertEquals(['r' => $red, 'g' => $green, 'b' => $blue], $color->getRgb());
+        self::assertEquals(['r' => $red, 'g' => $green, 'b' => $blue], $color->getRgb());
     }
 
     /**
@@ -73,17 +77,17 @@ class ColorTest extends \PHPUnit_Framework_TestCase
         $color1 = Color::fromRgb(255, 0, 0);
         $color2 = Color::fromHex('FF0000');
 
-        $this->assertEquals('FF0000', $color1);
-        $this->assertEquals(strval($color1), strval($color2));
+        self::assertEquals('FF0000', $color1);
+        self::assertEquals(strval($color1), strval($color2));
 
         $color = Color::fromRgb(255, 0, 0);
-        $this->assertEquals('FF0000', $color->getHex());
+        self::assertEquals('FF0000', $color->getHex());
 
         $color = Color::fromRgb(255, 0, 255);
-        $this->assertEquals('FF00FF', strval($color));
+        self::assertEquals('FF00FF', strval($color));
 
 
-        $this->assertEquals('FF00FF', Color::fromHex('#FF00FF'));
+        self::assertEquals('FF00FF', Color::fromHex('#FF00FF'));
     }
 
     /**
@@ -94,74 +98,75 @@ class ColorTest extends \PHPUnit_Framework_TestCase
         $color1 = Color::fromRgb(255, 0, 255);
         $color2 = Color::fromHex('FF00FF');
 
-        $this->assertEquals('{"r":255,"g":0,"b":255}', json_encode($color1));
-        $this->assertEquals('{"r":255,"g":0,"b":255}', json_encode($color2));
+        self::assertEquals('{"r":255,"g":0,"b":255}', json_encode($color1));
+        self::assertEquals('{"r":255,"g":0,"b":255}', json_encode($color2));
     }
 
     public function testDarkerColor()
     {
         $darkerColor = Color::fromHex('CCCCCC')->darken(20);
-        $this->assertEquals('A4A4A4', strval($darkerColor));
+        self::assertEquals('A4A4A4', strval($darkerColor));
 
         $darkerColor = Color::fromHex('000000')->darken(20);
-        $this->assertEquals('000000', strval($darkerColor));
+        self::assertEquals('000000', strval($darkerColor));
 
         $darkerColor = Color::fromHex('0099FF')->darken(20);
-        $this->assertEquals('007ACC', strval($darkerColor));
+        self::assertEquals('007ACC', strval($darkerColor));
 
         $darkerColor = Color::fromHex('FFFFFF')->darken(20);
-        $this->assertEquals('CCCCCC', strval($darkerColor));
+        self::assertEquals('CCCCCC', strval($darkerColor));
     }
 
     public function testIsDark()
     {
-        $this->assertEquals(false, Color::fromHex('FFFFFF')->isDark());
+        self::assertEquals(false, Color::fromHex('FFFFFF')->isDark());
 
-        $this->assertEquals(true, Color::fromHex('000000')->isDark());
+        self::assertEquals(true, Color::fromHex('000000')->isDark());
     }
 
     public function testLightenColor()
     {
         $lighterColor = Color::fromHex('999999')->lighten(20);
-        $this->assertEquals('B8B8B8', strval($lighterColor));
+        self::assertEquals('B8B8B8', strval($lighterColor));
 
         $lighterColor = Color::fromHex('000000')->lighten(20);
-        $this->assertEquals('000000', strval($lighterColor));
+        self::assertEquals('000000', strval($lighterColor));
 
         $lighterColor = Color::fromHex('CCCCCC')->lighten(20);
-        $this->assertEquals('F5F5F5', strval($lighterColor));
+        self::assertEquals('F5F5F5', strval($lighterColor));
     }
 
     public function testHsl()
     {
         $color = Color::fromHsl(0, 1, 0.5);
-        $this->assertEquals('FF0000', strval($color));
+        self::assertEquals('FF0000', strval($color));
 
         $darkerColor = Color::fromHex('FF9900')->darken(100);
-        $this->assertEquals(['h' => 0, 's' => 0, 'l' => 0], $darkerColor->getHsl());
+        self::assertEquals(['h' => 0, 's' => 0, 'l' => 0], $darkerColor->getHsl());
 
         $color = Color::fromHsl(1, 1, 0.2);
-        $this->assertEquals('660000', strval($color));
+        self::assertEquals('660000', strval($color));
 
         $color = Color::fromHsl(1, 1, 0.9);
-        $this->assertEquals('FFCCCC', strval($color));
-        $this->assertEquals(['h' => 0, 's' => 1, 'l' => 0.9], $color->getHsl());
+        self::assertEquals('FFCCCC', strval($color));
+        self::assertEquals(['h' => 0, 's' => 1, 'l' => 0.9], $color->getHsl());
 
         $green = Color::fromRgb(0, 255, 0);
-        $this->assertEquals(['h' => 1 / 3, 's' => 1, 'l' => 0.5], $green->getHsl());
+        self::assertEquals(['h' => 1 / 3, 's' => 1, 'l' => 0.5], $green->getHsl());
 
         $red1 = Color::fromHsl(0, 1, 0.5);
         $red2 = Color::fromRgb(255, 0, 0);
-        $this->assertEquals(true, $red1->equals($red2));
+        self::assertEquals(true, $red1->equals($red2));
     }
 
     /**
      */
     public function testBadHsl()
     {
-        $this->setExpectedException('\MikeAlmond\Color\Exceptions\InvalidColorException');
+        $this->expectException(InvalidColorException::class);
+
         $color = Color::fromHsl(1.1, 1, 0.5);
-        $this->assertEquals('FF0000', strval($color));
+        self::assertEquals('FF0000', strval($color));
     }
 
     public function testEquals()
@@ -169,10 +174,10 @@ class ColorTest extends \PHPUnit_Framework_TestCase
         $white1 = Color::fromHex('FFFFFF');
         $white2 = Color::fromRgb(255, 255, 255);
 
-        $this->assertEquals(true, $white1->equals($white2));
+        self::assertEquals(true, $white1->equals($white2));
 
-        $this->assertEquals(true, Color::fromHex('009AFF')->equals(Color::fromRgb(0, 154, 255)));
-        $this->assertEquals(true, Color::fromHex('0099FF')->equals(Color::fromRgb(0, 153, 255)));
+        self::assertEquals(true, Color::fromHex('009AFF')->equals(Color::fromRgb(0, 154, 255)));
+        self::assertEquals(true, Color::fromHex('0099FF')->equals(Color::fromRgb(0, 153, 255)));
     }
 
     public function testLuminosityContrast()
@@ -180,15 +185,15 @@ class ColorTest extends \PHPUnit_Framework_TestCase
         $white1 = Color::fromHex('FFFFFF');
         $white2 = Color::fromRgb(255, 255, 255);
 
-        $this->assertEquals(1, $white1->luminosityContrast($white2));
-        $this->assertEquals(false, $white1->isReadable($white2));
+        self::assertEquals(1, $white1->luminosityContrast($white2));
+        self::assertEquals(false, $white1->isReadable($white2));
 
-        $this->assertEquals(0, $white1->colorDifference($white2));
-        $this->assertEquals(765, $white1->colorDifference(Color::fromHex('000000')));
+        self::assertEquals(0, $white1->colorDifference($white2));
+        self::assertEquals(765, $white1->colorDifference(Color::fromHex('000000')));
 
-        $this->assertEquals(255, $white1->getBrightness());
+        self::assertEquals(255, $white1->getBrightness());
 
-        $this->assertEquals(false, $white1->isReadable($white2));
+        self::assertEquals(false, $white1->isReadable($white2));
     }
 
     public function testAdjustHue()
@@ -197,7 +202,7 @@ class ColorTest extends \PHPUnit_Framework_TestCase
         $color     = Color::fromHex('0099FF');
         $hue       = $color->getHsl();
         $sameColor = Color::fromHsl($hue['h'], $hue['s'], $hue['l']);
-        $this->assertEquals($color->getHex(), $sameColor->getHex());
+        self::assertEquals($color->getHex(), $sameColor->getHex());
 
         /**
          * Failing test
@@ -205,40 +210,40 @@ class ColorTest extends \PHPUnit_Framework_TestCase
          * $color = Color::fromHex('009AFF');
          * $hue = $color->getHsl();
          * $sameColor = Color::fromHsl($hue['h'], $hue['s'], $hue['l']);
-         * $this->assertEquals(0, $hue['h'] - $sameColor->getHsl()['h']);
+         * self::assertEquals(0, $hue['h'] - $sameColor->getHsl()['h']);
          */
 
-        $this->assertEquals('00FF00', Color::fromHex('FF0000')->adjustHue(120)->getHex());
+        self::assertEquals('00FF00', Color::fromHex('FF0000')->adjustHue(120)->getHex());
 
-        $this->assertEquals('FF6600', Color::fromHex('0099FF')->adjustHue(180)->getHex());
+        self::assertEquals('FF6600', Color::fromHex('0099FF')->adjustHue(180)->getHex());
 
         // Converting 009AFF -> HSL -> HEX results in 0099FF
-        $this->assertEquals('0099FF', Color::fromHex('0099FF')->adjustHue(30)->adjustHue(-30)->getHex());
-        $this->assertEquals('0099FF', Color::fromHex('009AFF')->adjustHue(30)->adjustHue(-30)->getHex());
+        self::assertEquals('0099FF', Color::fromHex('0099FF')->adjustHue(30)->adjustHue(-30)->getHex());
+        self::assertEquals('0099FF', Color::fromHex('009AFF')->adjustHue(30)->adjustHue(-30)->getHex());
 
-        $this->assertEquals('00FF00', Color::fromHex('FF00FF')->adjustHue(180)->getHex());
+        self::assertEquals('00FF00', Color::fromHex('FF00FF')->adjustHue(180)->getHex());
 
         // Full circle
-        $this->assertEquals('FF00FF', Color::fromHex('FF00FF')->adjustHue(360)->getHex());
+        self::assertEquals('FF00FF', Color::fromHex('FF00FF')->adjustHue(360)->getHex());
 
-        $this->assertEquals('FF00FF', Color::fromHex('FF00FF')->adjustHue(-360)->getHex());
+        self::assertEquals('FF00FF', Color::fromHex('FF00FF')->adjustHue(-360)->getHex());
     }
 
     /**
      */
     public function testBadAdjustment()
     {
-        $this->setExpectedException('\MikeAlmond\Color\Exceptions\ColorException');
+        $this->expectException(ColorException::class);
 
         Color::fromHex('FF00FF')->adjustHue(720)->getHex();
     }
 
     public function testMatchingTextColor()
     {
-        $this->assertEquals('FFFFFF', Color::fromHex('C91414')->getMatchingTextColor()->getHex());
-        $this->assertEquals('000000', Color::fromHex('5CF081')->getMatchingTextColor()->getHex());
-        $this->assertEquals('F8BABA', Color::fromHex('930F0E')->getMatchingTextColor()->getHex());
-        $this->assertEquals('CCCCCC', Color::fromHex('000000')->getMatchingTextColor()->getHex());
+        self::assertEquals('FFFFFF', Color::fromHex('C91414')->getMatchingTextColor()->getHex());
+        self::assertEquals('000000', Color::fromHex('5CF081')->getMatchingTextColor()->getHex());
+        self::assertEquals('F8BABA', Color::fromHex('930F0E')->getMatchingTextColor()->getHex());
+        self::assertEquals('CCCCCC', Color::fromHex('000000')->getMatchingTextColor()->getHex());
     }
 
     /**
@@ -296,15 +301,16 @@ class ColorTest extends \PHPUnit_Framework_TestCase
 
     public function testCssColor()
     {
-        $this->assertEquals('FFFFFF', Color::fromCssColor('white')->getHex());
-        $this->assertEquals('40E0D0', Color::fromCssColor('turquoise')->getHex());
-        $this->assertEquals('00FFFF', Color::fromCssColor('cyan')->getHex());
-        $this->assertEquals('00FFFF', Color::fromCssColor('aqua')->getHex());
+        self::assertEquals('FFFFFF', Color::fromCssColor('white')->getHex());
+        self::assertEquals('40E0D0', Color::fromCssColor('turquoise')->getHex());
+        self::assertEquals('00FFFF', Color::fromCssColor('cyan')->getHex());
+        self::assertEquals('00FFFF', Color::fromCssColor('aqua')->getHex());
     }
 
     public function testBadCssColor()
     {
-        $this->setExpectedException('\MikeAlmond\Color\Exceptions\ColorException');
-        $this->assertEquals('FFFFFF', Color::fromCssColor('AlmondJoy')->getHex());
+        $this->expectException(ColorException::class);
+
+        self::assertEquals('FFFFFF', Color::fromCssColor('AlmondJoy')->getHex());
     }
 }

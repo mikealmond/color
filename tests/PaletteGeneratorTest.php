@@ -2,11 +2,13 @@
 
 namespace MikeAlmond\Color;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class PaletteGeneratorTest
  * @package MikeAlmond\Color
  */
-class PaletteGeneratorTest extends \PHPUnit_Framework_TestCase
+class PaletteGeneratorTest extends TestCase
 {
 
     public function testMonochromatic()
