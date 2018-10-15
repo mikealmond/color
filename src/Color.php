@@ -227,14 +227,22 @@ class Color implements \JsonSerializable
     }
 
     /**
+     * Get's the luminosity contrast based on the sRGB color space
+     * https://www.w3.org/TR/WCAG20/#relativeluminancedef
      *
      * @return float
      */
     public function getLuminosity(): float
     {
-        return 0.2126 * pow($this->colors['r'] / 255, 2.2)
-            + 0.7152 * pow($this->colors['g'] / 255, 2.2)
-            + 0.0722 * pow($this->colors['b'] / 255, 2.2);
+        $rSrgb = $this->colors['r'] / 255;
+        $gSrgb = $this->colors['g'] / 255;
+        $bSrgb = $this->colors['b'] / 255;
+
+        $r = $rSrgb <= 0.03928 ? $rSrgb/12.92 : pow(($rSrgb + 0.055)/1.055, 2.4);
+        $g = $gSrgb <= 0.03928 ? $gSrgb/12.92 : pow(($gSrgb + 0.055)/1.055, 2.4);
+        $b = $bSrgb <= 0.03928 ? $bSrgb/12.92 : pow(($bSrgb + 0.055)/1.055, 2.4);
+
+        return (0.2126 * $r) + (0.7152 * $g) + (0.0722 * $b);
     }
 
     /**
