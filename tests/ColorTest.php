@@ -246,6 +246,13 @@ class ColorTest extends TestCase
         self::assertEquals('CCCCCC', Color::fromHex('000000')->getMatchingTextColor()->getHex());
     }
 
+    public function testMixingColors()
+    {
+        self::assertEquals('808080', Color::fromHex('FFFFFF')->mix(Color::fromHex('000000'))->getHex());
+        self::assertEquals('FFFFFF', Color::fromHex('FFFFFF')->mix(Color::fromHex('000000'), 100)->getHex());
+        self::assertEquals('000000', Color::fromHex('FFFFFF')->mix(Color::fromHex('000000'), 0)->getHex());
+    }
+
     /**
      * @return array
      */

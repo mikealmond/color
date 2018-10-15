@@ -309,6 +309,27 @@ class Color implements \JsonSerializable
     }
 
     /**
+     * @param Color $color
+     * @param float $percentage A number between 0 and 1
+     *
+     * @return Color
+     */
+    public function mix(Color $color, float $percentage = 50)
+    {
+        $steps           = 2;
+        $primaryWeight   = ($percentage * $steps) / 100;
+        $secondaryWeight = $steps - $primaryWeight;
+
+        $mixedColor = [
+            'r' => (int)ceil((($this->getRgb()['r'] * $primaryWeight) + ($color->getRgb()['r'] * $secondaryWeight)) / $steps),
+            'g' => (int)ceil((($this->getRgb()['g'] * $primaryWeight) + ($color->getRgb()['g'] * $secondaryWeight)) / $steps),
+            'b' => (int)ceil((($this->getRgb()['b'] * $primaryWeight) + ($color->getRgb()['b'] * $secondaryWeight)) / $steps),
+        ];
+
+        return new self(...array_values($mixedColor));
+    }
+
+    /**
      * @return string
      */
     public function getHex(): string
