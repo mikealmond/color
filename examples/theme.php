@@ -1,6 +1,7 @@
 <?php
 
 use MikeAlmond\Color\Color;
+use MikeAlmond\Color\CssGenerator;
 use MikeAlmond\Color\PaletteGenerator;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -87,5 +88,38 @@ foreach ($palette as $color) {
         $color->getMatchingTextColor()->getHex()
     );
 }
-
+echo '    <div style="clear:both;"></div>';
 echo '</div>';
+echo '    <div style="clear:both;"></div>';
+
+
+
+$color = Color::fromHex('000000');
+print sprintf('<div style="background-color: #%s;width:200px;height:50px;color:#%s;">%s<br>%s</div>',
+    $color->getHex(),
+    $color->getMatchingTextColor()->getHex(),
+    print_r($color->getHsl(), true) . ' ' . $color->luminosityContrast(Color::fromHex('FFFFFF')),
+    $color->getMatchingTextColor()->getHex()
+);
+$color = $color->mix(Color::fromHex('FFFFFF'));
+print sprintf('<div style="background-color: #%s;width:200px;height:50px;color:#%s;">%s<br>%s</div>',
+    $color->getHex(),
+    $color->getMatchingTextColor()->getHex(),
+    print_r($color->getHsl(), true) . ' ' . $color->luminosityContrast(Color::fromHex('FFFFFF')),
+    $color->getMatchingTextColor()->getHex()
+);
+$color = Color::fromHex('FFFFFF');
+print sprintf('<div style="background-color: #%s;width:200px;height:50px;color:#%s;">%s<br>%s</div>',
+    $color->getHex(),
+    $color->getMatchingTextColor()->getHex(),
+    print_r($color->getHsl(), true) . ' ' . $color->luminosityContrast(Color::fromHex('FFFFFF')),
+    $color->getMatchingTextColor()->getHex()
+);
+//
+//$color = $color->getWcag20SafeColor(Color::fromHex('FFFFFF'), 4.5);
+//print sprintf('<div style="background-color: #%s;width:200px;height:50px;color:#%s;">%s<br>%s</div>',
+//    $color->getHex(),
+//    $color->getMatchingTextColor()->getHex(),
+//    $color->getHex() . ' ' . $color->luminosityContrast(Color::fromHex('FFFFFF')),
+//    $color->getMatchingTextColor()->getHex()
+//);

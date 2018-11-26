@@ -86,7 +86,6 @@ class ColorTest extends TestCase
         $color = Color::fromRgb(255, 0, 255);
         self::assertEquals('FF00FF', strval($color));
 
-
         self::assertEquals('FF00FF', Color::fromHex('#FF00FF'));
     }
 
@@ -187,6 +186,7 @@ class ColorTest extends TestCase
 
         self::assertEquals(1, $white1->luminosityContrast($white2));
         self::assertEquals(false, $white1->isReadable($white2));
+        self::assertEquals(false, $white1->brightnessDifference($white2) >= 100);
 
         self::assertEquals(0, $white1->colorDifference($white2));
         self::assertEquals(765, $white1->colorDifference(Color::fromHex('000000')));
@@ -194,6 +194,8 @@ class ColorTest extends TestCase
         self::assertEquals(255, $white1->getBrightness());
 
         self::assertEquals(false, $white1->isReadable($white2));
+        self::assertEquals(false, $white1->brightnessDifference($white2) >= 100);
+
     }
 
     public function testAdjustHue()
@@ -244,6 +246,11 @@ class ColorTest extends TestCase
         self::assertEquals('000000', Color::fromHex('5CF081')->getMatchingTextColor()->getHex());
         self::assertEquals('F8BABA', Color::fromHex('930F0E')->getMatchingTextColor()->getHex());
         self::assertEquals('CCCCCC', Color::fromHex('000000')->getMatchingTextColor()->getHex());
+
+        self::assertEquals(true, Color::fromHex('C91414')->getMatchingTextColor()->brightnessDifference(Color::fromHex('C91414')) > 100);
+        self::assertEquals(true, Color::fromHex('5CF081')->getMatchingTextColor()->brightnessDifference(Color::fromHex('5CF081')) > 100);
+        self::assertEquals(true, Color::fromHex('930F0E')->getMatchingTextColor()->brightnessDifference(Color::fromHex('930F0E')) > 100);
+        self::assertEquals(true, Color::fromHex('000000')->getMatchingTextColor()->brightnessDifference(Color::fromHex('000000')) > 100);
     }
 
     public function testMixingColors()
@@ -251,6 +258,27 @@ class ColorTest extends TestCase
         self::assertEquals('808080', Color::fromHex('FFFFFF')->mix(Color::fromHex('000000'))->getHex());
         self::assertEquals('FFFFFF', Color::fromHex('FFFFFF')->mix(Color::fromHex('000000'), 100)->getHex());
         self::assertEquals('000000', Color::fromHex('FFFFFF')->mix(Color::fromHex('000000'), 0)->getHex());
+    }
+
+    public function testWsagSafeColors()
+    {
+        self::assertEquals(true, Color::fromHex('FFFFFF')->isReadable(Color::fromHex('000000')));
+        self::assertEquals(true, Color::fromHex('FFFFFF')->isReadable(Color::fromHex('007ACC')));
+        self::assertEquals(false, Color::fromHex('FFFFFF')->isReadable(Color::fromHex('0099FF')));
+        self::assertEquals(false, Color::fromHex('FFFFFF')->isReadable(Color::fromHex('0099FF')));
+
+        self::assertEquals(true, Color::fromHex('FFFFFF')->isReadable(Color::fromHex('0099FF'), 'AA', 20));
+        self::assertEquals(false, Color::fromHex('FFFFFF')->isReadable(Color::fromHex('0099FF'), 'AAA', 20));
+
+        // #0077C7 on #FFFFFF works on AAA large text, but not regular text
+        self::assertEquals(true, Color::fromHex('0077C7')->isReadable(Color::fromHex('FFFFFF'), 'AAA', 19));
+        self::assertEquals(false, Color::fromHex('0077C7')->isReadable(Color::fromHex('FFFFFF'), 'AAA', 13));
+
+        self::assertEquals('005289', Color::fromHex('0077C7')->darken(31)->getHex());
+        self::assertEquals(
+            true,
+            Color::fromHex('0077C7')->darken(31)->isReadable(Color::fromHex('FFFFFF'), 'AAA', 13)
+        );
     }
 
     /**

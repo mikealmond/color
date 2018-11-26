@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace MikeAlmond\Color;
 
@@ -199,13 +199,29 @@ class Color implements \JsonSerializable
     }
 
     /**
-     * @param Color $color
+     * Checks to see if body text on a background color is readable based on WCAG2 standards
+     *
+     * WCAG 2 level AA requires a contrast ratio of at least 4.5:1 for normal text and 3:1 for large text.
+     * Level AAA requires a contrast ratio of at least 7:1 for normal text and 4.5:1 for large text.
+     *
+     * Large text is defined as 14 point (typically 18.66px) and bold or larger, or 18 point (typically 24px) or larger.
+     *
+     * @param Color  $backgroundColor
+     * @param string $level
+     * @param int    $fontSize
      *
      * @return bool
      */
-    public function isReadable(Color $color): bool
+    public function isReadable(Color $backgroundColor, $level = 'AA', int $fontSize = 12): bool
     {
-        return $this->brightnessDifference($color) >= 100;
+        $contrast = round($this->luminosityContrast($backgroundColor), 2);
+
+        // Normal text
+        if ($fontSize < 19) {
+            return $contrast >= ($level === 'AA' ? 4.5 : 7.1);
+        }
+
+        return $contrast >= ($level === 'AA' ? 3.0 : 4.5);
     }
 
     /**
@@ -238,9 +254,9 @@ class Color implements \JsonSerializable
         $gSrgb = $this->colors['g'] / 255;
         $bSrgb = $this->colors['b'] / 255;
 
-        $r = $rSrgb <= 0.03928 ? $rSrgb/12.92 : pow(($rSrgb + 0.055)/1.055, 2.4);
-        $g = $gSrgb <= 0.03928 ? $gSrgb/12.92 : pow(($gSrgb + 0.055)/1.055, 2.4);
-        $b = $bSrgb <= 0.03928 ? $bSrgb/12.92 : pow(($bSrgb + 0.055)/1.055, 2.4);
+        $r = $rSrgb <= 0.03928 ? $rSrgb / 12.92 : pow(($rSrgb + 0.055) / 1.055, 2.4);
+        $g = $gSrgb <= 0.03928 ? $gSrgb / 12.92 : pow(($gSrgb + 0.055) / 1.055, 2.4);
+        $b = $bSrgb <= 0.03928 ? $bSrgb / 12.92 : pow(($bSrgb + 0.055) / 1.055, 2.4);
 
         return (0.2126 * $r) + (0.7152 * $g) + (0.0722 * $b);
     }
@@ -257,6 +273,8 @@ class Color implements \JsonSerializable
     }
 
     /**
+     * @deprecated use `luminosityContrast` instead
+     *
      * This works by summing up the differences between the three color components red, green and blue.
      * A value higher than 500 is recommended for good readability.
      *
@@ -274,6 +292,8 @@ class Color implements \JsonSerializable
     }
 
     /**
+     * @deprecated use `luminosityContrast` instead
+     *
      * This function tries to compare the brightness of the colors. A return value of
      * more than 125 is recommended. Combining it with the color difference above might make sense.
      *
@@ -294,7 +314,7 @@ class Color implements \JsonSerializable
 
     /**
      * Uses the luminosity to calculate the difference between the given colors.
-     * The returned value should be bigger than 5 for best readability.
+     * The returned value should be larger than 4.5 for best readability.
      *
      * @param Color $color
      *
@@ -439,7 +459,7 @@ class Color implements \JsonSerializable
      */
     public function darken(float $percentage): Color
     {
-        $colors = $this->getHsl();
+        $colors      = $this->getHsl();
         $colors['l'] -= $colors['l'] * ($percentage / 100);
 
         $darkerColor = self::hslToRgb($colors['h'], $colors['s'], max(round($colors['l'], 5), 0));
@@ -454,7 +474,7 @@ class Color implements \JsonSerializable
      */
     public function lighten(float $percentage): Color
     {
-        $colors = $this->getHsl();
+        $colors      = $this->getHsl();
         $colors['l'] += $colors['l'] * ($percentage / 100);
 
         $lighterColor = self::hslToRgb($colors['h'], $colors['s'], min(round($colors['l'], 5), 1));
