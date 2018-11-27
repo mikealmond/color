@@ -336,14 +336,14 @@ class Color implements \JsonSerializable
      */
     public function mix(Color $color, float $percentage = 50)
     {
-        $steps           = 2;
-        $primaryWeight   = ($percentage * $steps) / 100;
-        $secondaryWeight = $steps - $primaryWeight;
+        $steps     = 2;
+        $weight    = ($percentage * $steps) / 100;
+        $mixWeight = $steps - $weight;
 
         $mixedColor = [
-            'r' => (int)ceil((($this->getRgb()['r'] * $primaryWeight) + ($color->getRgb()['r'] * $secondaryWeight)) / $steps),
-            'g' => (int)ceil((($this->getRgb()['g'] * $primaryWeight) + ($color->getRgb()['g'] * $secondaryWeight)) / $steps),
-            'b' => (int)ceil((($this->getRgb()['b'] * $primaryWeight) + ($color->getRgb()['b'] * $secondaryWeight)) / $steps),
+            'r' => (int)ceil((($this->getRgb()['r'] * $weight) + ($color->getRgb()['r'] * $mixWeight)) / $steps),
+            'g' => (int)ceil((($this->getRgb()['g'] * $weight) + ($color->getRgb()['g'] * $mixWeight)) / $steps),
+            'b' => (int)ceil((($this->getRgb()['b'] * $weight) + ($color->getRgb()['b'] * $mixWeight)) / $steps),
         ];
 
         return new self(...array_values($mixedColor));

@@ -195,7 +195,6 @@ class ColorTest extends TestCase
 
         self::assertEquals(false, $white1->isReadable($white2));
         self::assertEquals(false, $white1->brightnessDifference($white2) >= 100);
-
     }
 
     public function testAdjustHue()
@@ -247,10 +246,30 @@ class ColorTest extends TestCase
         self::assertEquals('F8BABA', Color::fromHex('930F0E')->getMatchingTextColor()->getHex());
         self::assertEquals('CCCCCC', Color::fromHex('000000')->getMatchingTextColor()->getHex());
 
-        self::assertEquals(true, Color::fromHex('C91414')->getMatchingTextColor()->brightnessDifference(Color::fromHex('C91414')) > 100);
-        self::assertEquals(true, Color::fromHex('5CF081')->getMatchingTextColor()->brightnessDifference(Color::fromHex('5CF081')) > 100);
-        self::assertEquals(true, Color::fromHex('930F0E')->getMatchingTextColor()->brightnessDifference(Color::fromHex('930F0E')) > 100);
-        self::assertEquals(true, Color::fromHex('000000')->getMatchingTextColor()->brightnessDifference(Color::fromHex('000000')) > 100);
+        self::assertEquals(
+            true,
+            Color::fromHex('C91414')
+                 ->getMatchingTextColor()
+                 ->brightnessDifference(Color::fromHex('C91414')) > 100
+        );
+        self::assertEquals(
+            true,
+            Color::fromHex('5CF081')
+                 ->getMatchingTextColor()
+                 ->brightnessDifference(Color::fromHex('5CF081')) > 100
+        );
+        self::assertEquals(
+            true,
+            Color::fromHex('930F0E')
+                 ->getMatchingTextColor()
+                 ->brightnessDifference(Color::fromHex('930F0E')) > 100
+        );
+        self::assertEquals(
+            true,
+            Color::fromHex('000000')
+                 ->getMatchingTextColor()
+                 ->brightnessDifference(Color::fromHex('000000')) > 100
+        );
     }
 
     public function testMixingColors()
