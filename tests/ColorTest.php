@@ -246,6 +246,8 @@ class ColorTest extends TestCase
         self::assertEquals('F8BABA', Color::fromHex('930F0E')->getMatchingTextColor()->getHex());
         self::assertEquals('CCCCCC', Color::fromHex('000000')->getMatchingTextColor()->getHex());
 
+        self::assertEquals('FFFFFF', Color::fromHex('000000')->getMatchingTextColor('FFFFFF')->getHex());
+
         self::assertEquals(
             true,
             Color::fromHex('C91414')
@@ -270,6 +272,7 @@ class ColorTest extends TestCase
                  ->getMatchingTextColor()
                  ->brightnessDifference(Color::fromHex('000000')) > 100
         );
+
     }
 
     public function testMixingColors()

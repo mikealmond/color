@@ -426,13 +426,15 @@ class Color implements \JsonSerializable
     }
 
     /**
+     * @param string $default
+     *
      * @return Color
      */
-    public function getMatchingTextColor()
+    public function getMatchingTextColor($default = 'CCCCCC')
     {
-        // Always set black's matching text color to CCCCCC
+        // Always set black's matching text color to the default
         if ($this->getHsl()['l'] == 0) {
-            return self::fromHex('CCCCCC');
+            return self::fromHex($default);
         }
 
         if ($this->isDark()) {
