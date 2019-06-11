@@ -439,17 +439,21 @@ class Color implements \JsonSerializable
 
         if ($this->isDark()) {
             $color = $this->lighten(125);
+            $count = 1;
             do {
                 $color = $color->lighten(20);
-            } while (!$this->isReadable($color));
+                $count++;
+            } while (!$this->isReadable($color) && $count < 100);
 
             return $color;
         }
 
         $color = $this->darken(100);
+        $count = 1;
         do {
             $color = $color->darken(10);
-        } while (!$this->isReadable($color));
+            $count++;
+        } while (!$this->isReadable($color) && $count < 100);
 
         return $color;
     }
