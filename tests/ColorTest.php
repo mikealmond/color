@@ -5,6 +5,7 @@ namespace MikeAlmond\Color;
 use MikeAlmond\Color\Exceptions\ColorException;
 use MikeAlmond\Color\Exceptions\InvalidColorException;
 use PHPUnit\Framework\TestCase;
+use TypeError;
 
 /**
  * Class ColorTest
@@ -13,7 +14,6 @@ use PHPUnit\Framework\TestCase;
 class ColorTest extends TestCase
 {
     /**
-     * @expectedException \MikeAlmond\Color\Exceptions\
      * @dataProvider badHexColors
      *
      * @param $color
@@ -49,7 +49,7 @@ class ColorTest extends TestCase
 
         try {
             Color::fromRgb($red, $green, $blue);
-        } catch (\TypeError $e) {
+        } catch (TypeError $e) {
             throw new InvalidColorException($e->getMessage(), 0, $e);
         }
     }
@@ -272,7 +272,6 @@ class ColorTest extends TestCase
                  ->getMatchingTextColor()
                  ->brightnessDifference(Color::fromHex('000000')) > 100
         );
-
     }
 
     public function testMixingColors()
